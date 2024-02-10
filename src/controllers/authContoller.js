@@ -62,7 +62,6 @@ const refresh = async (req, res) => {
         }
 
         const decoded = jwt.verify(refreshtoken, process.env.REFRESH_SECRET)
-        console.log(decoded)
 
         const bearertoken = jwt.sign({ id: decoded.id }, process.env.SECRET, { expiresIn: "10m" })
 
@@ -94,7 +93,6 @@ const logout = async (req, res) => {
 
     try {
         tokens.forEach((tokenObj) => {
-            console.log(tokenObj.type)
             jwt.verify(
                 tokenObj.token,
                 tokenObj.type == "refreshtoken" ? process.env.REFRESH_SECRET : process.env.SECRET,

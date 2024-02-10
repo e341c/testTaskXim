@@ -1,13 +1,16 @@
 const File = require("../models/file")
 const { uploadFile, checkFile, deleteFile } = require("../services/file")
-const fs = require("fs")
 const path = require("path")
 
 const file = {}
 
 file.all = async (req, res) => {
+    const list_size = req.query.list_size ? parseInt(req.query?.list_size) : 10
+    const page = req.query.page ? parseInt(req.query?.page) : 1
+    const offset = (page - 1) * list_size
+
     try {
-        const files = await File.findAll()
+        const files = await File.findAll({ offset, limit: list_size })
         res.status(200).json(files)
     } catch (error) {
         console.log(error)
@@ -21,7 +24,6 @@ file.one = async (req, res) => {
 
     try {
         const file = await File.findOne({ where: { id } })
-
         if (!file) return res.status(404).json({ msg: "Not found" })
 
         res.status(200).json(file?.dataValues)
@@ -132,7 +134,7 @@ file.delete = async (req, res) => {
 
         await File.destroy({ where: { id } })
 
-        res.status(200).json({ msg: "ok" })
+        res.status(200).json({ msg: "File deleted" })
     } catch (error) {
         console.log(error)
         res.status(500).json({ error: "Internal server error" })

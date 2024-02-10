@@ -5,7 +5,6 @@ function uploadFile(file) {
     const uploadPath = "./files"
 
     const savePath = path.join(uploadPath, file.originalFilename)
-    console.log("Save path is..", savePath);
 
     fs.rename(file.path, savePath, (err) => {
         if (err) {
