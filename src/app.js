@@ -11,7 +11,6 @@ const app = express()
 const PORT = process.env.PORT || 7000
 
 const staticFilesDirectory = path.join(__dirname, "../files")
-console.log(staticFilesDirectory)
 
 function createServer() {
     app.use(cors({ origin: true }))

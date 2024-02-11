@@ -7,6 +7,14 @@ const signUp = async (req, res) => {
     const { id, password } = req.body
     if (!id || !password) return res.status(400).json({ msg: "Not all fields provided" })
 
+    const emailPattern = /\S+@\S+\.\S+/
+    const phonePattern = /^\d+$/
+
+    if (emailPattern.test(id) || phonePattern.test(id)) {
+    } else {
+        return res.status(400).json({ msg: "Invalid id" })
+    }
+
     try {
         const user = await User.findOne({ where: { id } })
         if (user) return res.status(400).json({ msg: "User already exists" })
@@ -25,6 +33,14 @@ const signUp = async (req, res) => {
 const signIn = async (req, res) => {
     const { id, password } = req.body
     if (!id || !password) return res.status(400).json({ msg: "Not all fields provided" })
+
+    const emailPattern = /\S+@\S+\.\S+/
+    const phonePattern = /^\d+$/
+
+    if (emailPattern.test(id) || phonePattern.test(id)) {
+    } else {
+        return res.status(400).json({ msg: "Invalid id" })
+    }
 
     try {
         const user = await User.findOne({ where: { id } })
